@@ -1,0 +1,49 @@
+Sub ticker()
+
+'loop through worksheets
+For Each WS In Worksheets
+WS.Activate
+
+    Range("I1").Value = "Ticker"
+    Range("J1").Value = "Volume"
+
+    Dim ticker As String
+    
+    Dim Volume As Double
+    Volume = 0
+
+    Dim Summary_Table_Row As Integer
+    Summary_Table_Row = 2
+
+    'loop through final row in sheet
+    Dim lastRow As Long
+    lastRow = ActiveSheet.Cells(Rows.Count, "A").End(xlUp).Row
+     
+    For I = 2 To lastRow
+        
+        'store ticker if ticker under current row is different
+        If Cells(I + 1, 1).Value <> Cells(I, 1).Value Then
+
+            ticker = Cells(I, 1).Value
+            Volume = Volume + Cells(I, 7).Value
+        
+            Range("I" & Summary_Table_Row).Value = ticker
+            Range("J" & Summary_Table_Row).Value = Volume
+        
+            Summary_Table_Row = Summary_Table_Row + 1
+    
+            Volume = 0
+
+        Else
+
+            Volume = Volume + Cells(I, 7).Value
+
+        End If
+
+    Next I
+    
+Next WS
+
+End Sub
+
+
